@@ -7,7 +7,7 @@ export class CreateCriterionDto {
     @ApiProperty({
         description: 'The title of the scenario',
         example: 'Choose the best programming language'
-    })
+    }) //publico
     name: string;
 
     @IsNumber()
