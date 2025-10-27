@@ -26,12 +26,5 @@ export class CreateCriterionDto {
     })
     active: boolean;
 
-    @IsDate()
-    @IsNotEmpty()
-    @ApiProperty({
-        description: 'The title of the scenario',
-        example: 'Choose the best programming language'
-    })
-    createdAt: Date;
-    // Scores: Score[];
+
 }
