@@ -1,0 +1,5 @@
+npm run start:dev
+npx prisma generate
+
+.env ->
+DATABASE_URL="postgresql://neondb_owner:npg_Nx2sEATBnLJ4@ep-lingering-field-ac8sk08z-pooler.sa-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"

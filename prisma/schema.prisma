@@ -1,0 +1,43 @@
+
+generator client {
+  provider = "prisma-client-js" // Define o gerador do cliente Prisma para JavaScript.
+}
+
+datasource db {
+  provider = "postgresql" // Define o banco de dados como PostgreSQL.
+ url = "postgresql://neondb_owner:npg_ONjwM6fHcbW2@ep-square-cherry-ac39n4cp-pooler.sa-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require" // Usa uma variável de ambiente para a URL de conexão com o banco de dados.
+}
+
+model Scenario {
+  id String @id @default(uuid()) // Identificador único do cenário, gerado automaticamente como UUID.
+  title String // Título do cenário.
+  description String? // Descrição opcional do cenário.
+  createdAt DateTime @default(now()) // Data de criação do cenário, com valor padrão como o momento atual.
+  options Option[] // Relação com o modelo Option (um cenário pode ter várias opções).
+}
+
+model Option {
+  id String @id @default(uuid()) // Identificador único da opção, gerado automaticamente como UUID.
+  name String // Nome da opção.
+  description String? // Descrição opcional da opção.
+  scenarioId String // Chave estrangeira que referencia o cenário ao qual a opção pertence.
+  scenario Scenario @relation(fields: [scenarioId], references: [id]) // Define a relação com o modelo Scenario.
+  scores Score[] // Relação com o modelo Score (uma opção pode ter várias pontuações).
+}
+
+model Criterion {
+  id String @id @default(uuid()) // Identificador único do critério, gerado automaticamente como UUID.
+  name String // Nome do critério.
+  weight Float // Peso do critério (valor entre 0 e 1, soma dos pesos deve ser 1).
+  active Boolean @default(true) // Indica se o critério está ativo, com valor padrão como true.
+  createdAt DateTime @default(now()) // Data de criação do critério, com valor padrão como o momento atual.
+  scores Score[] // Relação com o modelo Score (um critério pode ter várias pontuações).
+}
+
+model Score {
+  id String @id @default(uuid()) // Identificador único da pontuação, gerado automaticamente como UUID.
+  optionId String // Chave estrangeira que referencia a opção à qual a pontuação pertence.
+  option Option @relation(fields: [optionId], references: [id]) // Define a relação com o modelo Option.
+  criterionId String // Chave estrangeira que referencia o critério ao qual a pontuação pertence.
+  criterion Criterion @relation(fields: [criterionId], references: [id]) // Define a relação com o modelo Criterion.
+}
